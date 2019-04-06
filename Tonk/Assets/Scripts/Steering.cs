@@ -34,9 +34,6 @@ public class Steering : MonoBehaviour
 
 		rb.AddForce(transform.forward * traction * acceleration * Input.GetAxis("Vertical"), ForceMode.Acceleration);
 
-		// Rotating the tank in an ugly way
-		//rb.angularVelocity = transform.up * Input.GetAxis("Horizontal") * rotationSpeed;
-
 		// Rotating the tank in a less ugly way
 		rb.AddTorque(transform.up * rotationSpeed * Input.GetAxis("Horizontal"), ForceMode.Acceleration);
 
