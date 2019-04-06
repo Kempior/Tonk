@@ -30,7 +30,7 @@ public class Steering : MonoBehaviour
 			if (wheel.isGrounded)
 				groundedWheels++;
 
-		float traction = groundedWheels / wheels.Length;
+		float traction = (float)groundedWheels / wheels.Length;
 
 		rb.AddForce(transform.forward * traction * acceleration * Input.GetAxis("Vertical"), ForceMode.Acceleration);
 
