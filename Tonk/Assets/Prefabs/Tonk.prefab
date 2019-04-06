@@ -784,6 +784,7 @@ GameObject:
   - component: {fileID: 793900708159629908}
   - component: {fileID: 1970893757595935132}
   - component: {fileID: 6160904699006280925}
+  - component: {fileID: 5204683934828518589}
   m_Layer: 9
   m_Name: Tonk
   m_TagString: Untagged
@@ -871,6 +872,19 @@ MonoBehaviour:
   RotationRate: 50
   MaxElevation: 20
   MaxDepression: 10
+--- !u!114 &5204683934828518589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793900708159629909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f6c04af70983446b2e8ed7a3c06339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AntiRollForce: 15
 --- !u!1 &793900708332517299
 GameObject:
   m_ObjectHideFlags: 0
