@@ -30,7 +30,7 @@ public class DirectGunElevation : MonoBehaviour
 		if (elevation > MaxDepression && elevation < 180)
 			elevation = MaxDepression;
 		else if (elevation < 360 - MaxElevation && elevation > 180)
-			elevation = MaxElevation;
+			elevation = 360 - MaxElevation;
 
 		ElevatingGun.transform.localRotation = Quaternion.Euler(new Vector3(elevation, 0, 0));
 	}
