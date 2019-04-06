@@ -19,6 +19,11 @@ public class Steering : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		foreach (var wheel in wheels)
+			if(Input.GetAxis("Vertical") < 0.01 || Input.GetAxis("Horizontal") < 0.01)
+				wheel.motorTorque = 0.001f;
+
+
 		// Acceleration calculations
 		int groundedWheels = 0;
 		foreach (WheelCollider wheel in wheels)
