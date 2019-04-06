@@ -41,12 +41,5 @@ public class Steering : MonoBehaviour
 		//Vector3 targetVelocity = transform.forward * Vector3.ProjectOnPlane(rb.velocity, Vector3.up).magnitude;
 		//targetVelocity.y = rb.velocity.y;
 		//rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.fixedDeltaTime * 3);
-
-		// Stabilizes the tank (to be wheels-down)
-		//transform.rotation = Quaternion.Lerp(
-		//	transform.rotation,
-		//	Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, Vector3.up), Vector3.up), 
-		//	Time.fixedDeltaTime
-		//);
 	}
 }
