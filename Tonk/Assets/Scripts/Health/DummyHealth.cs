@@ -26,7 +26,9 @@ public class DummyHealth : Health
 	public override void Die()
 	{
 		Invoke(nameof(ResetPosition), ResetTime);
-	}
+
+		Debug.Log($"I, {transform.name}, shall return.");
+}
 
 	void ResetPosition()
 	{
@@ -35,5 +37,7 @@ public class DummyHealth : Health
 
 		rb.velocity = Vector3.zero;
 		rb.angularVelocity = Vector3.zero;
+
+		CurrentHealth = StartingHealth;
 	}
 }

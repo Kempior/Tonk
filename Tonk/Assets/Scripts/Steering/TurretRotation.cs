@@ -20,9 +20,12 @@ public class TurretRotation : MonoBehaviour
 		localTargetPos.y = 0.0f;
 
 		// Create new rotation towards the target in local space.
-		Quaternion rotationGoal = Quaternion.LookRotation(localTargetPos);
-		Quaternion currentRot = Quaternion.RotateTowards(RotatingTurret.transform.localRotation, rotationGoal, RotationRate * Time.deltaTime);
-		
-		RotatingTurret.transform.localRotation = currentRot;
+		if (localTargetPos != Vector3.zero)
+		{
+			Quaternion rotationGoal = Quaternion.LookRotation(localTargetPos);
+			Quaternion currentRot = Quaternion.RotateTowards(RotatingTurret.transform.localRotation, rotationGoal, RotationRate * Time.deltaTime);
+
+			RotatingTurret.transform.localRotation = currentRot;
+		}
 	}
 }
