@@ -618,10 +618,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 92b402c6-d9b9-4760-a992-d0e95de4762b
+  cloudProjectId: 
   framebufferDepthMemorylessMode: 0
-  projectName: Tonk
-  organizationId: armkowy
+  projectName: 
+  organizationId: 
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
