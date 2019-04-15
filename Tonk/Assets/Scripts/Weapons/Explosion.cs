@@ -6,8 +6,9 @@ public class Explosion : Weapon
 {
 	public int Damage = 50;
 	public int Radius = 3;
+	public int ForceMultiplier = 100;
 
-	int duration = 5;
+	readonly int duration = 1;
 
 	private void Start()
 	{
@@ -22,18 +23,23 @@ public class Explosion : Weapon
 
 		foreach (var coll in hitObjects)
 		{
-			Health otherHealth = coll.GetComponent<Health>();
-			if (otherHealth != null)
+			Health[] otherHealths = coll.transform.root.GetComponentsInChildren<Health>();
+			foreach (var health in otherHealths)
 			{
-				float damagePercent = Radius / (transform.position - coll.transform.position).magnitude;
+				if (health != null)
+				{
+					float damagePercent = 1 - ((transform.position - coll.transform.position).magnitude / Radius);
+					damagePercent = Mathf.Clamp01(damagePercent);
 
-				otherHealth.Hit((int)(Damage * damagePercent));
+					health.Hit((int)(Damage * damagePercent));
+				}
 			}
 
-			Rigidbody otherRb = coll.GetComponent<Rigidbody>();
-			if (otherRb != null)
+			// Gets only components in the object itself
+			Rigidbody[] otherRbs = coll.transform.root.GetComponentsInChildren<Rigidbody>();
+			foreach (var rb in otherRbs)
 			{
-
+				rb.AddExplosionForce(Damage * ForceMultiplier, transform.position, Radius);
 			}
 		}
 	}

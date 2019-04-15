@@ -7,7 +7,6 @@ public class Gun : Weapon
 {
 	public float ProjectileSpeed = 10;
 	public float ReloadTime = 1;
-	public GameObject Projectile;
 
 	// Does nothing yet
 	public bool IsFullAuto = false;
@@ -23,8 +22,8 @@ public class Gun : Weapon
 
 	protected override void Fire()
 	{
-		GameObject newProjectile = Instantiate(Projectile, BarrelEnd.transform.position, BarrelEnd.transform.rotation);
-		newProjectile.GetComponent<Rigidbody>().velocity = BarrelEnd.transform.forward * ProjectileSpeed;
+		GameObject newProjectile = Instantiate(SpawnedGO, ProjectileSpawn.transform.position, ProjectileSpawn.transform.rotation);
+		newProjectile.GetComponent<Rigidbody>().velocity = ProjectileSpawn.transform.forward * ProjectileSpeed;
 
 		stopwatch.Restart();
 	}

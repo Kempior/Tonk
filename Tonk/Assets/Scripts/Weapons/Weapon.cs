@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-	public GameObject BarrelEnd;
+	public GameObject ProjectileSpawn;
+	public GameObject SpawnedGO;
 
 	protected abstract void Fire();
 	protected abstract void FireEffects();
