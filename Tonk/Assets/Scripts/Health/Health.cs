@@ -8,6 +8,8 @@ public abstract class Health : MonoBehaviour
 	[HideInInspector]
 	public int CurrentHealth;
 
+	private bool iFrame = false;
+
 	public Health()
 	{
 		CurrentHealth = StartingHealth;
@@ -15,12 +17,22 @@ public abstract class Health : MonoBehaviour
 
 	public void Hit(int health)
 	{
-		CurrentHealth -= health;
+		if (!iFrame)
+		{
+			CurrentHealth -= health;
 
-		if (CurrentHealth < 0)
-			Die();
-		else
-			HitEffects(health);
+			if (CurrentHealth < 0)
+				Die();
+			else
+				HitEffects(health);
+
+			iFrame = true;
+		}
+	}
+
+	private void FixedUpdate()
+	{
+		iFrame = false;
 	}
 
 	public abstract void HitEffects(int health);

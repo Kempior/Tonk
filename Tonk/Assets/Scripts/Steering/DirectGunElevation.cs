@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DirectGunElevation : MonoBehaviour
+public class DirectGunElevation : Aiming
 {
-	public GameObject AimingPoint;
 	public GameObject ElevatingGun;
 
 	[Tooltip("In deg/s")]

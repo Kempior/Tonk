@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : Weapon
+public class ProjectileContact : Weapon
 {
 	public int Damage = 1;
 
 	protected override void Fire()
 	{
-		// Deal damage to the thing it collided with
 		throw new System.NotImplementedException();
 	}
 
@@ -20,9 +19,13 @@ public class Projectile : Weapon
 	private void OnCollisionEnter(Collision collision)
 	{
 		Health otherHealth = collision.transform.GetComponent<Health>();
-
 		if (otherHealth != null)
 			otherHealth.Hit(Damage);
+
+		if(ProjectileSpawn == null)
+			ProjectileSpawn = gameObject;
+		if (SpawnedGO != null)
+			Instantiate(SpawnedGO, ProjectileSpawn.transform.position, ProjectileSpawn.transform.rotation);
 
 		Destroy(gameObject);
 	}
