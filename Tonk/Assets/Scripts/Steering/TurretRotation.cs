@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class TurretRotation : MonoBehaviour
+public class TurretRotation : Aiming
 {
-	public GameObject AimingPoint;
 	public GameObject RotatingTurret;
 
 	[Tooltip("In deg/s")]
