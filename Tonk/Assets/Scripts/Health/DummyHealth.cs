@@ -20,15 +20,14 @@ public class DummyHealth : Health
 
 	public override void HitEffects(int health)
 	{
-		Debug.Log($"I {transform.name}, {CurrentHealth}/{StartingHealth} HP (hot for {health} HP)");
+		Debug.Log($"I {transform.name}, {CurrentHealth}/{StartingHealth} HP (hit for {health} HP)");
 	}
 
 	public override void Die()
 	{
+		Debug.Log($"I {transform.name}, {CurrentHealth}/{StartingHealth} HP");
 		Invoke(nameof(ResetPosition), ResetTime);
-
-		Debug.Log($"I, {transform.name}, shall return.");
-}
+	}
 
 	void ResetPosition()
 	{
