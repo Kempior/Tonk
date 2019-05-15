@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using System.Linq;
 
-public class Steering : MonoBehaviour
+public class Steering : NetworkBehaviour
 {
 	[SerializeField] private float acceleration = 1;
 	[SerializeField] private float rotationSpeed = 5;
-	
+
 	private Rigidbody rb;
 	private WheelCollider[] wheels;
 
@@ -15,31 +17,37 @@ public class Steering : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 
 		wheels = GetComponentsInChildren<WheelCollider>();
+
+		CmdUnlockHandbrake();
 	}
 
 	private void FixedUpdate()
 	{
-		foreach (var wheel in wheels)
-			if(Input.GetAxis("Vertical") < 0.01 || Input.GetAxis("Horizontal") < 0.01)
-				wheel.motorTorque = 0.001f;
+		if (!hasAuthority)
+			return;
 
+		CmdPassSteering(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
+	}
+
+	[Command]
+	private void CmdPassSteering(float forward, float steering)
+	{
+		if (!isServer) return;
 
 		// Acceleration calculations
-		int groundedWheels = 0;
-		foreach (WheelCollider wheel in wheels)
-			if (wheel.isGrounded)
-				groundedWheels++;
-
+		int groundedWheels = wheels.Where(w => w.isGrounded).Count();
 		float traction = (float)groundedWheels / wheels.Length;
 
-		rb.AddForce(transform.forward * traction * acceleration * Input.GetAxis("Vertical"), ForceMode.Acceleration);
+		rb.AddForce(transform.forward * traction * acceleration * forward, ForceMode.Acceleration);
+		rb.AddTorque(transform.up * rotationSpeed * steering, ForceMode.Acceleration);
+	}
 
-		// Rotating the tank in a less ugly way
-		rb.AddTorque(transform.up * rotationSpeed * Input.GetAxis("Horizontal"), ForceMode.Acceleration);
+	[Command]
+	void CmdUnlockHandbrake()
+	{
+		if (!isServer) return;
 
-		// Slightly pulls the velocity towards forward direction
-		//Vector3 targetVelocity = transform.forward * Vector3.ProjectOnPlane(rb.velocity, Vector3.up).magnitude;
-		//targetVelocity.y = rb.velocity.y;
-		//rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.fixedDeltaTime * 3);
+		foreach (var wheel in wheels)
+			wheel.motorTorque = 0.000000001f;
 	}
 }
