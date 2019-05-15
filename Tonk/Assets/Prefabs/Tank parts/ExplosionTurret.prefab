@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 4645097031903633465}
   - component: {fileID: 4645097031903633464}
   - component: {fileID: 4516101621867979353}
+  - component: {fileID: 7848030429962568347}
+  - component: {fileID: 1871203023860296897}
   m_Layer: 9
   m_Name: ExplosionTurret
   m_TagString: Untagged
@@ -116,6 +118,37 @@ MonoBehaviour:
   ProjectileSpeed: 30
   ReloadTime: 1
   IsFullAuto: 0
+--- !u!114 &7848030429962568347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4645097031903633470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0.1
+  compressRotation: 1
+  target: {fileID: 0}
+--- !u!114 &1871203023860296897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4645097031903633470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 7b0b6c4b85da05a4cb554fa5c7dc31a5
+  m_SceneId: 0
 --- !u!1 &4645097032713601913
 GameObject:
   m_ObjectHideFlags: 0

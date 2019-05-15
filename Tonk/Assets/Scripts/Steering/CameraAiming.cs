@@ -12,12 +12,15 @@ public class CameraAiming : MonoBehaviour
 	private void Start()
 	{
 		camera = GetComponent<Camera>();
-
-		AimingPoint.transform.SetParent(null);
 	}
 
 	void Update()
     {
+		if (AimingPoint == null)
+			AimingPoint = GameObject.FindWithTag("AimingPoint");
+		if (AimingPoint == null)
+			return;
+
 		// Cast a ray forward a set distance, set AimingPoint's position to the ray's hit point or to its end
 		Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
