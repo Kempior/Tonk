@@ -18,36 +18,20 @@ public class Steering : NetworkBehaviour
 
 		wheels = GetComponentsInChildren<WheelCollider>();
 
-		CmdUnlockHandbrake();
-	}
+        foreach (var wheel in wheels)
+            wheel.motorTorque = 0.000000001f;
+    }
 
 	private void FixedUpdate()
 	{
 		if (!hasAuthority)
 			return;
 
-		CmdPassSteering(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
-	}
+        // Acceleration calculations
+        int groundedWheels = wheels.Where(w => w.isGrounded).Count();
+        float traction = (float)groundedWheels / wheels.Length;
 
-	[Command]
-	private void CmdPassSteering(float forward, float steering)
-	{
-		if (!isServer) return;
-
-		// Acceleration calculations
-		int groundedWheels = wheels.Where(w => w.isGrounded).Count();
-		float traction = (float)groundedWheels / wheels.Length;
-
-		rb.AddForce(transform.forward * traction * acceleration * forward, ForceMode.Acceleration);
-		rb.AddTorque(transform.up * rotationSpeed * steering, ForceMode.Acceleration);
-	}
-
-	[Command]
-	void CmdUnlockHandbrake()
-	{
-		if (!isServer) return;
-
-		foreach (var wheel in wheels)
-			wheel.motorTorque = 0.000000001f;
+        rb.AddForce(transform.forward * traction * acceleration * Input.GetAxis("Vertical"), ForceMode.Acceleration);
+        rb.AddTorque(transform.up * rotationSpeed * Input.GetAxis("Horizontal"), ForceMode.Acceleration);
 	}
 }

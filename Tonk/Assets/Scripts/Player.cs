@@ -33,7 +33,7 @@ public class Player : NetworkBehaviour
 	{
 		thisTank = Instantiate(tankPrefab, spawns.Next);
 
-		NetworkServer.SpawnWithClientAuthority(thisTank, gameObject);
+		NetworkServer.SpawnWithClientAuthority(thisTank, connectionToClient);
 
 		RpcReturnTank(thisTank.GetComponent<NetworkIdentity>().netId);
 	}
