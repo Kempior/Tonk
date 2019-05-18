@@ -16,6 +16,10 @@ public class Player : NetworkBehaviour
 	private void Start()
 	{
 		manager = FindObjectOfType<GameManager>();
+	}
+
+	public override void OnStartServer()
+	{
 		spawns = FindObjectOfType<Spawns>();
 	}
 
