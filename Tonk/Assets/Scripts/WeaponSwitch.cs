@@ -4,39 +4,48 @@ using UnityEngine;
 using Mirror;
 using System;
 
-public class WeaponSwitch : MonoBehaviour
+public class WeaponSwitch : NetworkBehaviour
 {
-	public GameObject[] StartingTurrets;
+	public GameObject[] TurretPrefabs;
 	public GameObject TurretRoot;
 	public GameObject AimingPoint;
 
-	List<GameObject> spawnedTurrets = new List<GameObject>();
+	//List<GameObject> spawnedTurrets = new List<GameObject>();
+
+    SyncList<GameObject> spawnedTurrets;
+
 	GameObject currentTurret;
 
-	private void Start()
-	{
-		foreach (var turret in StartingTurrets)
-		{
-			AddTurret(turret);
-		}
-		SwitchTo(0);
-	}
+    public override void OnStartAuthority()
+    {
+        CmdSpawnTurrets();
+        CmdSwitchTo(0);
+    }
 
-	private void Update()
+    private void Update()
 	{
+        if (!hasAuthority) return;
+
 		if (Input.GetKeyDown("1"))
-			SwitchTo(0);
+            CmdSwitchTo(0);
 		else if (Input.GetKeyDown("2"))
-			SwitchTo(1);
+            CmdSwitchTo(1);
 		else if (Input.GetKeyDown("3"))
-			SwitchTo(2);
+            CmdSwitchTo(2);
 		else if (Input.GetKeyDown("4"))
-			SwitchTo(3);
+            CmdSwitchTo(3);
 		else if (Input.GetKeyDown("5"))
-			SwitchTo(4);
+            CmdSwitchTo(4);
 	}
 
-	void SwitchTo(int newTurret)
+    [Command]
+    void CmdSwitchTo(int newTurret)
+    {
+        RpcSwitchTo(newTurret);
+    }
+
+    [ClientRpc]
+	void RpcSwitchTo(int newTurret)
 	{
 		try
 		{
@@ -53,20 +62,31 @@ public class WeaponSwitch : MonoBehaviour
 		}
 	}
 
-	void AddTurret(GameObject newTurret, bool isEnabled = false)
-	{
-		GameObject newInstance = Instantiate(newTurret, TurretRoot.transform);
-		newInstance.SetActive(isEnabled);
+    [Command]
+    void CmdSpawnTurrets()
+    {
+        foreach (var turretPrefab in TurretPrefabs)
+        {
+            GameObject newTurret = Instantiate(turretPrefab);
+            NetworkServer.SpawnWithClientAuthority(newTurret, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);
 
-		var aimings = newInstance.GetComponents<Aiming>();
+            RpcSetupTurretAimPoint(newTurret);
+
+            newTurret.SetActive(false);
+            spawnedTurrets.Add(newTurret);
+        }
+    }
+
+    [ClientRpc]
+	void RpcSetupTurretAimPoint(GameObject newTurret)
+	{
+        newTurret.transform.SetParent(TurretRoot.transform, false);
+
+		var aimings = newTurret.GetComponents<Aiming>();
 
 		foreach (var aim in aimings)
 		{
 			aim.AimingPoint = AimingPoint;
 		}
-
-		newInstance.GetComponent<NetworkTransformChild>().target = transform;
-
-		spawnedTurrets.Add(newInstance);
 	}
 }
