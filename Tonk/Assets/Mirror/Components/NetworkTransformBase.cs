@@ -259,6 +259,8 @@ namespace Mirror
                 //    for best results
                 float speed = Mathf.Max(start.movementSpeed, goal.movementSpeed);
                 //return Vector3.MoveTowards(currentPosition, goal.position, speed * Time.deltaTime);
+
+				//Changed, because i hate it
 				return Vector3.MoveTowards(currentPosition, goal.position, (5 + speed) * Time.deltaTime);
             }
             return currentPosition;
@@ -289,11 +291,10 @@ namespace Mirror
 
 			// Distance between two given positions
 			float distanceDiff = (targetComponent.transform.position - goal.position).magnitude;
-			Debug.Log(distanceDiff);
 
             return timeSinceGoalReceived > difference * 5
 				// Yes, hardcoded
-				|| distanceDiff > 5;
+				|| distanceDiff > 3;
         }
 
         // moved since last time we checked it?
@@ -319,7 +320,6 @@ namespace Mirror
         // set position carefully depending on the target component
         void ApplyPositionAndRotation(Vector3 position, Quaternion rotation)
         {
-			Debug.Log($"Goal: {goal.position}, tansform: {targetComponent.transform.position}");
             targetComponent.transform.position = position;
             if (Compression.NoRotation != compressRotation)
             {
