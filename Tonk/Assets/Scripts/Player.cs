@@ -31,21 +31,23 @@ public class Player : NetworkBehaviour
 	[Command]
 	void CmdSpawnTank()
 	{
-		thisTank = Instantiate(tankPrefab, spawns.Next);
+        Transform spawnPoint = spawns.Next;
+        thisTank = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
 
 		NetworkServer.SpawnWithClientAuthority(thisTank, connectionToClient);
 
-		RpcReturnTank(thisTank.GetComponent<NetworkIdentity>().netId);
+		RpcReturnTank(thisTank);
 	}
 
 	[ClientRpc]
-	void RpcReturnTank(uint tankNetId)
+	void RpcReturnTank(GameObject tank)
 	{
-		thisTank = FindObjectsOfType<NetworkIdentity>().Where(x => x.netId == tankNetId).First().gameObject;
+		thisTank = tank;
 
 		if (!isLocalPlayer) return;
 
-		Instantiate(cameraPrefab, thisTank.transform.Find("CameraAnchor").transform);
+		GameObject camera = Instantiate(cameraPrefab, thisTank.transform.Find("CameraAnchor").transform);
+        camera.GetComponentInChildren<CameraAiming>().AimingPoint = thisTank.GetComponent<AimingPointObject>().AimingPoint;
 	}
 
 	private void Update()

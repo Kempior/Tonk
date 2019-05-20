@@ -47,7 +47,7 @@ WheelCollider:
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0
   m_Mass: 0.0001
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -153,7 +153,7 @@ WheelCollider:
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0
   m_Mass: 0.0001
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -244,7 +244,7 @@ WheelCollider:
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0
   m_Mass: 0.0001
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -270,9 +270,11 @@ GameObject:
   - component: {fileID: 2175945811225339386}
   - component: {fileID: 2985389463090181515}
   - component: {fileID: 7836933505888927570}
+  - component: {fileID: 1563089542707424884}
   - component: {fileID: 2175945811225339385}
   - component: {fileID: 2175945811225339384}
   - component: {fileID: 2175945811225339335}
+  - component: {fileID: 887373559880127224}
   - component: {fileID: 2175945811225339334}
   m_Layer: 9
   m_Name: Tank
@@ -346,6 +348,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0.1
   compressRotation: 0
+--- !u!114 &1563089542707424884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175945811225339333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0.1
+  compressRotation: 1
+  target: {fileID: 8192361273738546125}
 --- !u!114 &2175945811225339385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +406,19 @@ MonoBehaviour:
   FlippedTime: 5
   MaxGroundedPercentage: 0.2
   MaxAngle: 70
+--- !u!114 &887373559880127224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175945811225339333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0b8b99537631a428c9e8dcf20c44ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AimingPoint: {fileID: 4268574421976851682}
 --- !u!114 &2175945811225339334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,7 +431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbcb8129ea41dc04790032fe290ff4ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingTurrets:
+  syncInterval: 0.1
+  TurretPrefabs:
   - {fileID: 4645097031903633470, guid: 4e34de92d3d9f5b4db6abf8831274c6e, type: 3}
   - {fileID: 4645097031903633470, guid: 7b0b6c4b85da05a4cb554fa5c7dc31a5, type: 3}
   - {fileID: 4645097031903633470, guid: 60aa0aaa907cec540a8a3bb2c264fdb6, type: 3}
@@ -454,7 +485,7 @@ WheelCollider:
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0
   m_Mass: 0.0001
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -546,7 +577,7 @@ WheelCollider:
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0
   m_Mass: 0.0001
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -607,7 +638,7 @@ WheelCollider:
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0
   m_Mass: 0.0001
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -668,7 +699,7 @@ WheelCollider:
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0
   m_Mass: 0.0001
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -767,7 +798,7 @@ WheelCollider:
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0
   m_Mass: 0.0001
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
