@@ -17,7 +17,12 @@ public class CameraRotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		transform.rotation = transform.rotation * (Quaternion.Euler(0, Input.GetAxis("Mouse X") * Time.fixedDeltaTime * MouseSensitivity, 0));
+        if (Cursor.visible)
+        {
+            return;
+        }
+
+        transform.rotation = transform.rotation * (Quaternion.Euler(0, Input.GetAxis("Mouse X") * Time.fixedDeltaTime * MouseSensitivity, 0));
 
 		cameraGO.transform.rotation = cameraGO.transform.rotation * (Quaternion.Euler(-Input.GetAxis("Mouse Y") * Time.fixedDeltaTime * MouseSensitivity, 0, 0));
 	}
