@@ -10,9 +10,7 @@ public class WeaponSwitch : NetworkBehaviour
 	public GameObject TurretRoot;
 	public GameObject AimingPoint;
 
-	//List<GameObject> spawnedTurrets = new List<GameObject>();
-
-    SyncList<GameObject> spawnedTurrets;
+	List<GameObject> spawnedTurrets = new List<GameObject>();
 
 	GameObject currentTurret;
 
@@ -41,7 +39,21 @@ public class WeaponSwitch : NetworkBehaviour
     [Command]
     void CmdSwitchTo(int newTurret)
     {
-        RpcSwitchTo(newTurret);
+        try
+        {
+            GameObject newInstance = spawnedTurrets[newTurret];
+
+            currentTurret?.SetActive(false);
+
+            newInstance.SetActive(true);
+            currentTurret = newInstance;
+        }
+        catch
+        {
+            Debug.Log("An instance of a turret wasn't instantiated yet.");
+        }
+
+        //RpcSwitchTo(newTurret);
     }
 
     [ClientRpc]
@@ -68,11 +80,12 @@ public class WeaponSwitch : NetworkBehaviour
         foreach (var turretPrefab in TurretPrefabs)
         {
             GameObject newTurret = Instantiate(turretPrefab);
+            //newTurret.SetActive(false);
+
             NetworkServer.SpawnWithClientAuthority(newTurret, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);
 
-            RpcSetupTurretAimPoint(newTurret);
-
-            newTurret.SetActive(false);
+            //RpcSetupTurretAimPoint(newTurret);
+            
             spawnedTurrets.Add(newTurret);
         }
     }
@@ -80,6 +93,7 @@ public class WeaponSwitch : NetworkBehaviour
     [ClientRpc]
 	void RpcSetupTurretAimPoint(GameObject newTurret)
 	{
+        newTurret.SetActive(false);
         newTurret.transform.SetParent(TurretRoot.transform, false);
 
 		var aimings = newTurret.GetComponents<Aiming>();
