@@ -12,11 +12,6 @@ public class TurretRotation : Aiming
 
 	void FixedUpdate()
 	{
-        if (AimingPoint == null)
-        {
-            return;
-        }
-
         // Heavily inspired by (a.k.a. copied from) https://github.com/brihernandez/GunTurrets
         // Since we're casting world to parent local coords there may be some discrepancy if the tank is on a heavily angled slope
         // This can be fixed by placing the object in an empty parent
