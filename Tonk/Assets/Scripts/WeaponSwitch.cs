@@ -7,17 +7,20 @@ using System;
 public class WeaponSwitch : NetworkBehaviour
 {
 	public GameObject[] TurretPrefabs;
-	public GameObject TurretRoot;
+    public GameObject TurretRoot;
 	public GameObject AimingPoint;
 
 	List<GameObject> spawnedTurrets = new List<GameObject>();
 
 	GameObject currentTurret;
 
-    public override void OnStartAuthority()
+    [SyncVar(hook =(nameof(SwitchTo)))]
+    int currentTurretIndex = 0;
+
+    public override void OnStartClient()
     {
-        CmdSpawnTurrets();
-        CmdSwitchTo(0);
+        SpawnTurrets();
+        SwitchTo(currentTurretIndex);
     }
 
     private void Update()
@@ -37,70 +40,43 @@ public class WeaponSwitch : NetworkBehaviour
 	}
 
     [Command]
-    void CmdSwitchTo(int newTurret)
+    void CmdSwitchTo(int newTurretIndex)
     {
-        try
-        {
-            GameObject newInstance = spawnedTurrets[newTurret];
-
-            currentTurret?.SetActive(false);
-
-            newInstance.SetActive(true);
-            currentTurret = newInstance;
-        }
-        catch
-        {
-            Debug.Log("An instance of a turret wasn't instantiated yet.");
-        }
-
-        //RpcSwitchTo(newTurret);
+        currentTurretIndex = newTurretIndex;
     }
 
-    [ClientRpc]
-	void RpcSwitchTo(int newTurret)
+    [Client]
+	void SwitchTo(int newTurretIndex)
 	{
-		try
-		{
-			GameObject newInstance = spawnedTurrets[newTurret];
+        if(newTurretIndex <= spawnedTurrets.Count)
+        {
+            GameObject newTurret = spawnedTurrets[newTurretIndex];
 
-			currentTurret?.SetActive(false);
+            currentTurret?.SetActive(false);
+            newTurret.SetActive(true);
 
-			newInstance.SetActive(true);
-			currentTurret = newInstance;
-		}
-		catch
-		{
-			Debug.Log("An instance of a turret wasn't instantiated yet.");
-		}
+            currentTurret = newTurret;
+
+            TurretRoot.GetComponent<DirectGunElevation>().ElevatingGun = currentTurret.transform.GetChild(1).gameObject;
+        }
 	}
 
-    [Command]
-    void CmdSpawnTurrets()
+    [Client]
+    void SpawnTurrets()
     {
         foreach (var turretPrefab in TurretPrefabs)
         {
             GameObject newTurret = Instantiate(turretPrefab);
-            //newTurret.SetActive(false);
 
-            NetworkServer.SpawnWithClientAuthority(newTurret, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);
+            newTurret.SetActive(false);
+            newTurret.transform.SetParent(TurretRoot.transform, false);
 
-            //RpcSetupTurretAimPoint(newTurret);
-            
             spawnedTurrets.Add(newTurret);
+
+            foreach (var aiming in TurretRoot.GetComponents<Aiming>())
+            {
+                aiming.AimingPoint = AimingPoint;
+            }
         }
     }
-
-    [ClientRpc]
-	void RpcSetupTurretAimPoint(GameObject newTurret)
-	{
-        newTurret.SetActive(false);
-        newTurret.transform.SetParent(TurretRoot.transform, false);
-
-		var aimings = newTurret.GetComponents<Aiming>();
-
-		foreach (var aim in aimings)
-		{
-			aim.AimingPoint = AimingPoint;
-		}
-	}
 }
