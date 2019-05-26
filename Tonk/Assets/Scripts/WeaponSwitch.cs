@@ -56,8 +56,6 @@ public class WeaponSwitch : NetworkBehaviour
             newTurret.SetActive(true);
 
             currentTurret = newTurret;
-
-            TurretRoot.GetComponent<DirectGunElevation>().ElevatingGun = currentTurret.transform.GetChild(1).gameObject;
         }
 	}
 
@@ -73,7 +71,7 @@ public class WeaponSwitch : NetworkBehaviour
 
             spawnedTurrets.Add(newTurret);
 
-            foreach (var aiming in TurretRoot.GetComponents<Aiming>())
+            foreach (var aiming in newTurret.GetComponents<Aiming>())
             {
                 aiming.AimingPoint = AimingPoint;
             }

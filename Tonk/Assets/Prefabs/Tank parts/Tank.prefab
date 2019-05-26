@@ -176,8 +176,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2175945811086757768}
-  - component: {fileID: 7947020573693270294}
-  - component: {fileID: 5786530728269857340}
   m_Layer: 9
   m_Name: Turret
   m_TagString: Untagged
@@ -199,38 +197,6 @@ Transform:
   m_Father: {fileID: 2175945811225339387}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7947020573693270294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2175945811086757783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44d099ad0c1c426489dafaf5adaa9203, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AimingPoint: {fileID: 0}
-  RotatingTurret: {fileID: 2175945811086757783}
-  RotationRate: 50
---- !u!114 &5786530728269857340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2175945811086757783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 667c993c720f36247941d3557b481b25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AimingPoint: {fileID: 0}
-  ElevatingGun: {fileID: 0}
-  RotationRate: 50
-  MaxElevation: 20
-  MaxDepression: 10
 --- !u!1 &2175945811192074862
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +438,7 @@ MonoBehaviour:
   - {fileID: 4645097031903633470, guid: 60aa0aaa907cec540a8a3bb2c264fdb6, type: 3}
   TurretRoot: {fileID: 2175945811086757783}
   AimingPoint: {fileID: 4268574421976851682}
+  test: {fileID: 0}
 --- !u!1 &2175945811387157415
 GameObject:
   m_ObjectHideFlags: 0
