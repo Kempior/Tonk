@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 77805035040741939}
   - component: {fileID: 7147775437797803787}
   - component: {fileID: 2312159150643156410}
+  - component: {fileID: 6514701596775104792}
   m_Layer: 0
   m_Name: ProjectileRail
   m_TagString: Untagged
@@ -153,8 +154,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce713189c6ca6d40978c202b1291c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectileSpawn: {fileID: 0}
-  SpawnedGO: {fileID: 0}
-  hasAuthority: 0
-  proxyWeapon: {fileID: 0}
-  Damage: 50
+  syncInterval: 0.1
+  OnHitSpawnGameObject: {fileID: 0}
+--- !u!114 &6514701596775104792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6866155861303135070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b6271e8fdc111f45887c33c7360f41a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0.1
+  LifeTime: 5
+  SpawnGameObject: {fileID: 0}

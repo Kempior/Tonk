@@ -124,10 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53dfa3eacf36e56409d781732f6ff4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectileSpawn: {fileID: 0}
-  SpawnedGO: {fileID: 0}
-  hasAuthority: 0
-  proxyWeapon: {fileID: 0}
-  Damage: 50
-  Radius: 3
-  ForceMultiplier: 100
+  syncInterval: 0.1
+  Radius: 5
+  Force: 5000

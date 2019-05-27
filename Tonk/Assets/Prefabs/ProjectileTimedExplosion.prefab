@@ -153,9 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6271e8fdc111f45887c33c7360f41a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectileSpawn: {fileID: 0}
-  SpawnedGO: {fileID: 6786294142359596134, guid: c582ea17d658b4340b950103d9978dd3,
+  syncInterval: 0.1
+  LifeTime: 2
+  SpawnGameObject: {fileID: 6786294142359596134, guid: c582ea17d658b4340b950103d9978dd3,
     type: 3}
-  hasAuthority: 0
-  proxyWeapon: {fileID: 0}
-  Time: 3
