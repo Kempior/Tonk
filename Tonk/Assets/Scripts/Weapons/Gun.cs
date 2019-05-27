@@ -22,13 +22,20 @@ public class Gun : Weapon
 
 	protected override void Fire()
 	{
-		GameObject newProjectile = Instantiate(SpawnedGO, ProjectileSpawn.transform.position, ProjectileSpawn.transform.rotation);
-		newProjectile.GetComponent<Rigidbody>().velocity = ProjectileSpawn.transform.forward * ProjectileSpeed;
+        stopwatch.Restart();
 
-		stopwatch.Restart();
+        proxyWeapon.CmdFire();
 	}
 
-	protected override void FireEffects()
+    public override GameObject ServerFire()
+    {
+        GameObject newProjectile = Instantiate(SpawnedGO, ProjectileSpawn.transform.position, ProjectileSpawn.transform.rotation);
+        newProjectile.GetComponent<Rigidbody>().velocity = ProjectileSpawn.transform.forward * ProjectileSpeed;
+
+        return newProjectile;
+    }
+
+    protected override void FireEffects()
 	{
 		throw new System.NotImplementedException();
 	}

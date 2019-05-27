@@ -44,7 +44,12 @@ public class Explosion : Weapon
 		}
 	}
 
-	protected override void FireEffects()
+    public override GameObject ServerFire()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void FireEffects()
 	{
 		throw new System.NotImplementedException();
 	}

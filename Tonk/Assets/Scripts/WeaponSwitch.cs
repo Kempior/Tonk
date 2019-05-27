@@ -23,6 +23,17 @@ public class WeaponSwitch : NetworkBehaviour
         SwitchTo(currentTurretIndex);
     }
 
+    public override void OnStartAuthority()
+    {
+        foreach(var turret in spawnedTurrets)
+        {
+            Weapon gun = turret.GetComponent<Weapon>();
+
+            gun.hasAuthority = true;
+            gun.proxyWeapon = gameObject.GetComponent<ProxyWeapon>();
+        }
+    }
+
     private void Update()
 	{
         if (!hasAuthority) return;
@@ -56,6 +67,11 @@ public class WeaponSwitch : NetworkBehaviour
             newTurret.SetActive(true);
 
             currentTurret = newTurret;
+
+            if(isServer)
+            {
+                gameObject.GetComponent<ProxyWeapon>().weapon = currentTurret.GetComponent<Weapon>();
+            }
         }
 	}
 
