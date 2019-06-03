@@ -6,6 +6,7 @@ TagManager:
   tags:
   - AimingPoint
   - Tank
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
