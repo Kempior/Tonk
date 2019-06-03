@@ -1,68 +1,96 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using System;
 
-public class WeaponSwitch : MonoBehaviour
+public class WeaponSwitch : NetworkBehaviour
 {
-	public GameObject[] StartingTurrets;
-	public GameObject TurretRoot;
+	public GameObject[] TurretPrefabs;
+    public GameObject TurretRoot;
 	public GameObject AimingPoint;
 
 	List<GameObject> spawnedTurrets = new List<GameObject>();
+
 	GameObject currentTurret;
 
-	private void Start()
-	{
-		foreach (var turret in StartingTurrets)
-		{
-			AddTurret(turret);
-		}
-		SwitchTo(0);
-	}
+    [SyncVar(hook =(nameof(SwitchTo)))]
+    int currentTurretIndex = 0;
 
-	private void Update()
+    public override void OnStartClient()
+    {
+        SpawnTurrets();
+        SwitchTo(currentTurretIndex);
+    }
+
+    public override void OnStartAuthority()
+    {
+        foreach(var turret in spawnedTurrets)
+        {
+            Weapon gun = turret.GetComponent<Weapon>();
+
+            gun.hasAuthority = true;
+            gun.proxyWeapon = gameObject.GetComponent<ProxyWeapon>();
+        }
+    }
+
+    private void Update()
 	{
+        if (!hasAuthority) return;
+
 		if (Input.GetKeyDown("1"))
-			SwitchTo(0);
+            CmdSwitchTo(0);
 		else if (Input.GetKeyDown("2"))
-			SwitchTo(1);
+            CmdSwitchTo(1);
 		else if (Input.GetKeyDown("3"))
-			SwitchTo(2);
+            CmdSwitchTo(2);
 		else if (Input.GetKeyDown("4"))
-			SwitchTo(3);
+            CmdSwitchTo(3);
 		else if (Input.GetKeyDown("5"))
-			SwitchTo(4);
+            CmdSwitchTo(4);
 	}
 
-	void SwitchTo(int newTurret)
+    [Command]
+    void CmdSwitchTo(int newTurretIndex)
+    {
+        currentTurretIndex = newTurretIndex;
+    }
+
+    [Client]
+	void SwitchTo(int newTurretIndex)
 	{
-		try
-		{
-			GameObject newInstance = spawnedTurrets[newTurret];
+        if(newTurretIndex <= spawnedTurrets.Count)
+        {
+            GameObject newTurret = spawnedTurrets[newTurretIndex];
 
-			currentTurret?.SetActive(false);
+            currentTurret?.SetActive(false);
+            newTurret.SetActive(true);
 
-			newInstance.SetActive(true);
-			currentTurret = newInstance;
-		}
-		catch
-		{
-			Debug.Log("An instance of a turret wasn't instantiated yet.");
-		}
+            currentTurret = newTurret;
+
+            if(isServer)
+            {
+                gameObject.GetComponent<ProxyWeapon>().weapon = currentTurret.GetComponent<Weapon>();
+            }
+        }
 	}
 
-	void AddTurret(GameObject newTurret, bool isEnabled = false)
-	{
-		GameObject newInstance = Instantiate(newTurret, TurretRoot.transform);
-		newInstance.SetActive(isEnabled);
+    [Client]
+    void SpawnTurrets()
+    {
+        foreach (var turretPrefab in TurretPrefabs)
+        {
+            GameObject newTurret = Instantiate(turretPrefab);
 
-		var aimings = newInstance.GetComponents<Aiming>();
+            newTurret.SetActive(false);
+            newTurret.transform.SetParent(TurretRoot.transform, false);
 
-		foreach (var aim in aimings)
-		{
-			aim.AimingPoint = AimingPoint;
-		}
+            spawnedTurrets.Add(newTurret);
 
-		spawnedTurrets.Add(newInstance);
-	}
+            foreach (var aiming in newTurret.GetComponents<Aiming>())
+            {
+                aiming.AimingPoint = AimingPoint;
+            }
+        }
+    }
 }

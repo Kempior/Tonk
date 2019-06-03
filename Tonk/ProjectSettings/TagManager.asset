@@ -4,6 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - AimingPoint
+  - Tank
   - SpawnPoint
   layers:
   - Default

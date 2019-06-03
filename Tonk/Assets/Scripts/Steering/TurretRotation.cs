@@ -12,10 +12,10 @@ public class TurretRotation : Aiming
 
 	void FixedUpdate()
 	{
-		// Heavily inspired by (a.k.a. copied from) https://github.com/brihernandez/GunTurrets
-		// Since we're casting world to parent local coords there may be some discrepancy if the tank is on a heavily angled slope
-		// This can be fixed by placing the object in an empty parent
-		Vector3 localTargetPos = RotatingTurret.transform.parent.InverseTransformPoint(AimingPoint.transform.position);
+        // Heavily inspired by (a.k.a. copied from) https://github.com/brihernandez/GunTurrets
+        // Since we're casting world to parent local coords there may be some discrepancy if the tank is on a heavily angled slope
+        // This can be fixed by placing the object in an empty parent
+        Vector3 localTargetPos = RotatingTurret.transform.parent.InverseTransformPoint(AimingPoint.transform.position);
 		localTargetPos.y = 0.0f;
 
 		// Create new rotation towards the target in local space.

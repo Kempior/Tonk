@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class CameraAiming : MonoBehaviour
 {
+    [HideInInspector]
 	public GameObject AimingPoint;
 	public float AimingDistance = 100;
 
-	private new Camera camera;
+	private Camera mainCamera;
 
 	private void Start()
 	{
-		camera = GetComponent<Camera>();
-
-		AimingPoint.transform.SetParent(null);
+		mainCamera = GetComponent<Camera>();
 	}
 
 	void Update()
     {
 		// Cast a ray forward a set distance, set AimingPoint's position to the ray's hit point or to its end
-		Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+		Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
 		int layerMask = ~LayerMask.GetMask("TankHull");
 		layerMask &= ~LayerMask.GetMask("TankTurret");

@@ -1,32 +1,22 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileContact : Weapon
+public class ProjectileContact : NetworkBehaviour
 {
-	public int Damage = 1;
-
-	protected override void Fire()
-	{
-		throw new System.NotImplementedException();
-	}
-
-	protected override void FireEffects()
-	{
-		throw new System.NotImplementedException();
-	}
+    public GameObject OnHitSpawnGameObject;
 
 	private void OnCollisionEnter(Collision collision)
 	{
-		Health otherHealth = collision.transform.GetComponent<Health>();
-		if (otherHealth != null)
-			otherHealth.Hit(Damage);
+        if (!isServer) { return; }
 
-		if(ProjectileSpawn == null)
-			ProjectileSpawn = gameObject;
-		if (SpawnedGO != null)
-			Instantiate(SpawnedGO, ProjectileSpawn.transform.position, ProjectileSpawn.transform.rotation);
+		if (OnHitSpawnGameObject != null)
+        {
+            GameObject newGameObject = Instantiate(OnHitSpawnGameObject, transform.position, transform.rotation);
+            NetworkServer.Spawn(newGameObject);
+        }
 
-		Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
 	}
 }

@@ -1,25 +1,28 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileTimed : Weapon
+public class ProjectileTimed : NetworkBehaviour
 {
-	public uint Time = 2;
+	public uint LifeTime = 2;
 
-	private void Start()
+    public GameObject SpawnGameObject;
+
+    public override void OnStartServer()
+    {
+        Invoke(nameof(Fire), LifeTime);
+    }
+
+    [Server]
+	private void Fire()
 	{
-		Invoke(nameof(Fire), Time);
-	}
+        if(SpawnGameObject != null)
+        {
+            GameObject newGameObject = Instantiate(SpawnGameObject, transform.position, transform.rotation);
+            NetworkServer.Spawn(newGameObject);
+        }
 
-	protected override void Fire()
-	{
-		Instantiate(SpawnedGO, transform.position, transform.rotation);
-
-		Destroy(this);
-	}
-
-	protected override void FireEffects()
-	{
-		throw new System.NotImplementedException();
+        NetworkServer.Destroy(gameObject);
 	}
 }

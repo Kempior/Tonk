@@ -20,4 +20,12 @@ public class GameManager : MonoBehaviour
 		Cursor.visible = true;
 		Cursor.lockState = CursorLockMode.None;
 	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.LeftAlt))
+			ShowCursor();
+		else if (Input.GetKeyUp(KeyCode.LeftAlt))
+			HideCursor();
+	}
 }

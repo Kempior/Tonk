@@ -1,51 +1,43 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosion : Weapon
+public class Explosion : NetworkBehaviour
 {
-	public int Damage = 50;
 	public int Radius = 3;
-	public int ForceMultiplier = 100;
+	public int Force = 100;
 
 	readonly int duration = 1;
 
-	private void Start()
-	{
-		Fire();
+    public override void OnStartServer()
+    {
+        Invoke(nameof(DelayedDestroy), duration);
+    }
 
-		Destroy(gameObject, duration);
-	}
+    public override void OnStartClient()
+    {
+        Collide();
+    }
 
-	protected override void Fire()
-	{
-		Collider[] hitObjects = Physics.OverlapSphere(transform.position, Radius);
+    private void Collide()
+    {
+        Collider[] hitObjects = Physics.OverlapSphere(transform.position, Radius);
 
-		foreach (var coll in hitObjects)
-		{
-			Health[] otherHealths = coll.transform.root.GetComponentsInChildren<Health>();
-			foreach (var health in otherHealths)
-			{
-				if (health != null)
-				{
-					float damagePercent = 1 - ((transform.position - coll.transform.position).magnitude / Radius);
-					damagePercent = Mathf.Clamp01(damagePercent);
+        foreach(var collision in hitObjects)
+        {
+            //collision.attachedRigidbody.AddExplosionForce(Force, transform.position, Radius);
 
-					health.Hit((int)(Damage * damagePercent));
-				}
-			}
+            Rigidbody[] otherRbs = collision.transform.root.GetComponentsInChildren<Rigidbody>();
+            foreach (var rb in otherRbs)
+            {
+                rb.AddExplosionForce(Force, transform.position, Radius);
+            }
+        }
+    }
 
-			// Gets only components in the object itself
-			Rigidbody[] otherRbs = coll.transform.root.GetComponentsInChildren<Rigidbody>();
-			foreach (var rb in otherRbs)
-			{
-				rb.AddExplosionForce(Damage * ForceMultiplier, transform.position, Radius);
-			}
-		}
-	}
-
-	protected override void FireEffects()
-	{
-		throw new System.NotImplementedException();
-	}
+    private void DelayedDestroy()
+    {
+        NetworkServer.Destroy(gameObject);
+    }
 }
