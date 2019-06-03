@@ -231,6 +231,11 @@ MonoBehaviour:
   - {fileID: 4645097031903633470, guid: 4e34de92d3d9f5b4db6abf8831274c6e, type: 3}
   - {fileID: 4645097031903633470, guid: 7b0b6c4b85da05a4cb554fa5c7dc31a5, type: 3}
   - {fileID: 4645097031903633470, guid: 60aa0aaa907cec540a8a3bb2c264fdb6, type: 3}
+  - {fileID: 6866155861303135070, guid: 04c6fbabbe4607744a98961aa74f88e2, type: 3}
+  - {fileID: 6688251171139404812, guid: ea5b14cca50b45646bb343b8cdd4b7d3, type: 3}
+  - {fileID: 6866155861303135070, guid: 3e427e76a4d614245a1ff0df19356f7b, type: 3}
+  - {fileID: 6786294142359596134, guid: 8de40705756979e4aae5fd37a57df8bf, type: 3}
+  - {fileID: 6786294142359596134, guid: c582ea17d658b4340b950103d9978dd3, type: 3}
 --- !u!4 &261952547
 Transform:
   m_ObjectHideFlags: 0
