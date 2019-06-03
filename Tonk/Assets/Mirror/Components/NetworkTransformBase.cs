@@ -258,7 +258,10 @@ namespace Mirror
                 // -> speed is 0 if we just started after idle, so always use max
                 //    for best results
                 float speed = Mathf.Max(start.movementSpeed, goal.movementSpeed);
-                return Vector3.MoveTowards(currentPosition, goal.position, speed * Time.deltaTime);
+                //return Vector3.MoveTowards(currentPosition, goal.position, speed * Time.deltaTime);
+
+				//Changed, because i hate it
+				return Vector3.MoveTowards(currentPosition, goal.position, (5 + speed) * Time.deltaTime);
             }
             return currentPosition;
         }
@@ -285,7 +288,13 @@ namespace Mirror
             float goalTime = goal != null ? goal.timeStamp : Time.time;
             float difference = goalTime - startTime;
             float timeSinceGoalReceived = Time.time - goalTime;
-            return timeSinceGoalReceived > difference * 5;
+
+			// Distance between two given positions
+			float distanceDiff = (targetComponent.transform.position - goal.position).magnitude;
+
+            return timeSinceGoalReceived > difference * 5
+				// Yes, hardcoded
+				|| distanceDiff > 3;
         }
 
         // moved since last time we checked it?
