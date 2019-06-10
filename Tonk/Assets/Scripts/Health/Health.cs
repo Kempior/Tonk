@@ -1,38 +1,27 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Health : MonoBehaviour
+public abstract class Health : NetworkBehaviour
 {
-	public int StartingHealth;
+	public int MaxHealth;
 	[HideInInspector]
 	public int CurrentHealth;
 
-	private bool iFrame = false;
-
 	public Health()
 	{
-		CurrentHealth = StartingHealth;
+		CurrentHealth = MaxHealth;
 	}
 
 	public void Hit(int health)
 	{
-		if (!iFrame)
-		{
-			CurrentHealth -= health;
+		CurrentHealth -= health;
 
-			if (CurrentHealth < 0)
-				Die();
-			else
-				HitEffects(health);
-
-			iFrame = true;
-		}
-	}
-
-	private void FixedUpdate()
-	{
-		iFrame = false;
+		if (CurrentHealth < 0)
+			Die();
+		else
+			HitEffects(health);
 	}
 
 	public abstract void HitEffects(int health);

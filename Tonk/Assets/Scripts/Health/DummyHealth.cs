@@ -20,12 +20,12 @@ public class DummyHealth : Health
 
 	public override void HitEffects(int health)
 	{
-		Debug.Log($"I {transform.name}, {CurrentHealth}/{StartingHealth} HP (hit for {health} HP)");
+		Debug.Log($"I {transform.name}, {CurrentHealth}/{MaxHealth} HP (hit for {health} HP)");
 	}
 
 	public override void Die()
 	{
-		Debug.Log($"I {transform.name}, {CurrentHealth}/{StartingHealth} HP");
+		Debug.Log($"I {transform.name}, {CurrentHealth}/{MaxHealth} HP");
 		Invoke(nameof(ResetPosition), ResetTime);
 	}
 
@@ -37,6 +37,6 @@ public class DummyHealth : Health
 		rb.velocity = Vector3.zero;
 		rb.angularVelocity = Vector3.zero;
 
-		CurrentHealth = StartingHealth;
+		CurrentHealth = MaxHealth;
 	}
 }
