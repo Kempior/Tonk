@@ -126,4 +126,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0.1
   Radius: 8
-  Force: 5000
+  Force: 2500
+  Damage: 80

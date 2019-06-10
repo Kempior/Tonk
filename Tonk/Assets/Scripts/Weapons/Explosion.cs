@@ -8,6 +8,8 @@ public class Explosion : NetworkBehaviour
 	public int Radius = 3;
 	public int Force = 100;
 
+    public int Damage;
+
 	readonly int duration = 1;
 
     public override void OnStartServer()
@@ -26,7 +28,14 @@ public class Explosion : NetworkBehaviour
 
         foreach(var collision in hitObjects)
         {
-            //collision.attachedRigidbody.AddExplosionForce(Force, transform.position, Radius);
+            Health[] otherHealths = collision.transform.root.GetComponentsInChildren<Health>();
+            foreach (var health in otherHealths)
+            {
+                float damagePercent = 1 - ((transform.position - collision.transform.position).magnitude / Radius);
+                damagePercent = Mathf.Clamp01(Mathf.Clamp01(damagePercent) + 0.2f);
+
+                health.Hit((int)(Damage * damagePercent));
+            }
 
             Rigidbody[] otherRbs = collision.transform.root.GetComponentsInChildren<Rigidbody>();
             foreach (var rb in otherRbs)

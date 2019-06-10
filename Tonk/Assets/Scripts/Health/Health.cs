@@ -1,41 +1,37 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Health : MonoBehaviour
+public class Health : NetworkBehaviour
 {
-	public int StartingHealth;
+	public int MaxHealth;
 	[HideInInspector]
 	public int CurrentHealth;
 
-	private bool iFrame = false;
+    public delegate void KilledEventHandler();
+    public event KilledEventHandler KilledHandler;
 
-	public Health()
+    public override void OnStartServer()
+    {
+        CurrentHealth = MaxHealth;
+    }
+
+    public void Hit(int health)
 	{
-		CurrentHealth = StartingHealth;
+		CurrentHealth -= health;
+
+        Debug.Log("Health: " + CurrentHealth.ToString());
+
+		if (CurrentHealth <= 0)
+        {
+            OnKilled();
+        }
 	}
 
-	public void Hit(int health)
-	{
-		if (!iFrame)
-		{
-			CurrentHealth -= health;
-
-			if (CurrentHealth < 0)
-				Die();
-			else
-				HitEffects(health);
-
-			iFrame = true;
-		}
-	}
-
-	private void FixedUpdate()
-	{
-		iFrame = false;
-	}
-
-	public abstract void HitEffects(int health);
-
-	public abstract void Die();
+    protected virtual void OnKilled()
+    {
+        KilledHandler?.Invoke();
+    }
 }

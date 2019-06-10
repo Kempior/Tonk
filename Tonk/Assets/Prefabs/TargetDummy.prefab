@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 223131542623544222}
   - component: {fileID: 223131542623544223}
-  - component: {fileID: 223131542623544221}
+  - component: {fileID: 1767654531596755288}
+  - component: {fileID: 6616373678389379975}
   m_Layer: 0
   m_Name: TargetDummy
   m_TagString: Untagged
@@ -51,7 +52,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &223131542623544221
+--- !u!114 &1767654531596755288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,12 +61,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 223131542623544208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d4716b872081a42899aa84bbb05764, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingHealth: 5
-  CurrentHealth: 5
-  ResetTime: 5
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 4ca1833835da07c42bb0f5b42e1c6600
+  m_SceneId: 0
+--- !u!114 &6616373678389379975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223131542623544208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffce28e985f082f4f8a2b851c390c78a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0.1
+  MaxHealth: 5
+  CurrentHealth: 0
 --- !u!1 &223131542774121997
 GameObject:
   m_ObjectHideFlags: 0
