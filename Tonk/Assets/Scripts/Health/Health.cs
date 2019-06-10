@@ -1,30 +1,37 @@
 ﻿using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Health : NetworkBehaviour
+public class Health : NetworkBehaviour
 {
 	public int MaxHealth;
 	[HideInInspector]
 	public int CurrentHealth;
 
-	public Health()
-	{
-		CurrentHealth = MaxHealth;
-	}
+    public delegate void KilledEventHandler();
+    public event KilledEventHandler KilledHandler;
 
-	public void Hit(int health)
+    public override void OnStartServer()
+    {
+        CurrentHealth = MaxHealth;
+    }
+
+    public void Hit(int health)
 	{
 		CurrentHealth -= health;
 
-		if (CurrentHealth < 0)
-			Die();
-		else
-			HitEffects(health);
+        Debug.Log("Health: " + CurrentHealth.ToString());
+
+		if (CurrentHealth <= 0)
+        {
+            OnKilled();
+        }
 	}
 
-	public abstract void HitEffects(int health);
-
-	public abstract void Die();
+    protected virtual void OnKilled()
+    {
+        KilledHandler?.Invoke();
+    }
 }

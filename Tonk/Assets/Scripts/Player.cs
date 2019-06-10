@@ -31,13 +31,21 @@ public class Player : NetworkBehaviour
 	[Command]
 	void CmdSpawnTank()
 	{
+        SpawnTank();
+	}
+
+    void SpawnTank()
+    {
         Transform spawnPoint = spawns.Next;
         thisTank = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
 
-		NetworkServer.SpawnWithClientAuthority(thisTank, connectionToClient);
+        NetworkServer.SpawnWithClientAuthority(thisTank, connectionToClient);
 
-		RpcReturnTank(thisTank);
-	}
+        Health health = thisTank.GetComponent<Health>();
+        health.KilledHandler += HandleKilled;
+
+        RpcReturnTank(thisTank);
+    }
 
 	[ClientRpc]
 	void RpcReturnTank(GameObject tank)
@@ -50,19 +58,9 @@ public class Player : NetworkBehaviour
         camera.GetComponentInChildren<CameraAiming>().AimingPoint = thisTank.GetComponent<AimingPointObject>().AimingPoint;
 	}
 
-	private void Update()
-	{
-		//if (thisTank == null)
-		//	Debug.LogError("Something's wrong - we've got a null");
-		//else
-		//	if (!thisTank.GetComponent<Steering>().hasAuthority)
-		//		Debug.LogError("No Authority");
-
-
-
-		//if (tank.Health.IsDead)
-		//{
-		//	// Do ded stuff
-		//}
-	}
+	private void HandleKilled()
+    {
+        NetworkServer.Destroy(thisTank);
+        SpawnTank();
+    }
 }
